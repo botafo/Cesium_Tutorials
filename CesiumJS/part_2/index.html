@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Include the CesiumJS JavaScript and CSS files -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.135/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.135/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script type="module">
+    // Your access token can be found at: https://ion.cesium.com/tokens.
+    // This is the default access token from your ion account
+
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNTdmYzY1Ni00NDI0LTRhMjEtODg0ZC0xOTJkOTI2YzFjMmMiLCJpZCI6MjE2MDI3LCJpYXQiOjE3NjEyMjQyMTd9.TX85tRIDQEmqGjZiHLPux4CEZKqOFJEGldcLy1KHKqA';
+
+    // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+      terrain: Cesium.Terrain.fromWorldTerrain(),
+    });    
+
+    // Fly the camera to Gleisdorf at the given longitude, latitude, and height.
+    viewer.camera.flyTo({
+      destination: Cesium.Cartesian3.fromDegrees(15.706953150924749, 47.10183322334715, 700),
+      orientation: {
+        heading: Cesium.Math.toRadians(10.0), // Northing --> From North 360 degrees clockwise
+        pitch: Cesium.Math.toRadians(-25.0),  // pitch --> From horizon, negative is looking down
+      }
+    });
+
+    // Add Cesium OSM Buildings, a global 3D buildings layer.
+    const buildingTileset = await Cesium.createOsmBuildingsAsync();
+    viewer.scene.primitives.add(buildingTileset);   
+  </script>
+ </div>
+</body>
+
+</html>
